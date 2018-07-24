@@ -1,12 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
+    <Version>1.0.1</Version>
+    <PackageProjectUrl>https://github.com/softawaregmbh/library-reCaptcha</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/softawaregmbh/library-reCaptcha</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>softaware, recaptcha, google recaptcha</PackageTags>
+    <Company>softaware gmbh</Company>
+    <Authors>softaware gmbh</Authors>
+    <PackageLicenseUrl>https://github.com/softawaregmbh/library-reCaptcha/blob/master/LICENSE</PackageLicenseUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageIconUrl>https://secure.gravatar.com/avatar/d441f5a5514d2afce7da518a89f028d0?s=512&amp;r=g&amp;d=retro</PackageIconUrl>
+    <Description>
+      A simple .netstandard library for automatically generating holidays.
+      This is the core library.
+    </Description>
+    <PackageReleaseNotes>Update packages</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="Polly" Version="5.3.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Polly" Version="6.1.0" />
   </ItemGroup>
 
 </Project>

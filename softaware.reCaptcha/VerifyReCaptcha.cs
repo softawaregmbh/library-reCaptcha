@@ -32,7 +32,7 @@ namespace softaware.reCaptcha
                 // retry for 3 times if google server is not available
                 var response = await Policy
                                         .HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
-                                        .Retry(3)
+                                        .RetryAsync(3)
                                         .ExecuteAsync(() => client.PostAsync(this.url, new FormUrlEncodedContent(keys)));
 
                 if (!response.IsSuccessStatusCode)
