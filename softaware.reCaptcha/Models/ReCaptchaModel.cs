@@ -1,4 +1,4 @@
-﻿namespace softaware.reCaptcha
+﻿namespace softaware.reCaptcha.Models
 {
     public class ReCaptchaModel
     {

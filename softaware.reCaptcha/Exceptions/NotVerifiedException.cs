@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace softaware.reCaptcha
+namespace softaware.reCaptcha.Exceptions
 {
     [Serializable]
-    internal class NotVerifiedException : Exception
+    public class NotVerifiedException : Exception
     {
         public NotVerifiedException()
         {

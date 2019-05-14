@@ -4,6 +4,6 @@ namespace softaware.reCaptcha
 {
     public interface IVerifyCaptcha
     {
-        Task VerifyAsync(string captchaResponse, string remoteIP);
+        Task VerifyAsync(string captchaResponse, string remoteIP = null);
     }
 }

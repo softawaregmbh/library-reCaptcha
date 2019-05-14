@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "softaware.reCaptcha", "softaware.reCaptcha\softaware.reCaptcha.csproj", "{43E7934A-D801-4174-A3DC-EB9027C4F2C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "softaware.reCaptcha", "softaware.reCaptcha\softaware.reCaptcha.csproj", "{43E7934A-D801-4174-A3DC-EB9027C4F2C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "softaware.reCaptcha.AspNetCore", "softaware.reCaptcha.AspNetCore\softaware.reCaptcha.AspNetCore.csproj", "{5A9AA685-827F-4464-BD78-9FFBE768AC50}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4DAB39C1-843F-4F03-9645-3D632E583FA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,17 @@ Global
 		{43E7934A-D801-4174-A3DC-EB9027C4F2C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43E7934A-D801-4174-A3DC-EB9027C4F2C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43E7934A-D801-4174-A3DC-EB9027C4F2C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A9AA685-827F-4464-BD78-9FFBE768AC50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A9AA685-827F-4464-BD78-9FFBE768AC50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A9AA685-827F-4464-BD78-9FFBE768AC50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A9AA685-827F-4464-BD78-9FFBE768AC50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{43E7934A-D801-4174-A3DC-EB9027C4F2C4} = {4DAB39C1-843F-4F03-9645-3D632E583FA2}
+		{5A9AA685-827F-4464-BD78-9FFBE768AC50} = {4DAB39C1-843F-4F03-9645-3D632E583FA2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CBED2611-91A1-40C7-8408-B36D42CC75B9}

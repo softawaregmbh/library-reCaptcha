@@ -1,9 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace softaware.reCaptcha
+namespace softaware.reCaptcha.Models
 {
-    public class ReCaptchaResult
+    internal class ReCaptchaResult
     {
         [JsonProperty("success")]
         public bool Success { get; set; }

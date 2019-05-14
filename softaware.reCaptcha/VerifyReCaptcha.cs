@@ -4,48 +4,53 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Polly;
+using softaware.reCaptcha.Exceptions;
+using softaware.reCaptcha.Models;
 
 namespace softaware.reCaptcha
 {
     public class VerifyReCaptcha : IVerifyCaptcha
     {
+        private readonly HttpClient httpClient;
         private readonly string secret;
         private readonly string url;
 
-        public VerifyReCaptcha(string secret, string url)
+        public VerifyReCaptcha(string secret, string url, HttpClient httpClient)
         {
             this.secret = secret ?? throw new ArgumentNullException(nameof(secret));
             this.url = url ?? throw new ArgumentNullException(nameof(url));
+            this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task VerifyAsync(string captchaResponse, string remoteIP)
+        public async Task VerifyAsync(string captchaResponse, string remoteIP = null)
         {
-            using (var client = new HttpClient())
-            {
-                var keys = new List<KeyValuePair<string, string>>()
+            var keys = new List<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("secret", this.secret),
-                    new KeyValuePair<string, string>("response", captchaResponse),
-                    new KeyValuePair<string, string>("remoteip", remoteIP)
+                    new KeyValuePair<string, string>("response", captchaResponse)
                 };
 
-                // retry for 3 times if google server is not available
-                var response = await Policy
-                                        .HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
-                                        .RetryAsync(3)
-                                        .ExecuteAsync(() => client.PostAsync(this.url, new FormUrlEncodedContent(keys)));
+            if (remoteIP != null)
+            {
+                keys.Add(new KeyValuePair<string, string>("remoteip", remoteIP));
+            }
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new GoogleServerNotAvailableException(this.url, response.StatusCode);
-                }
+            // retry for 3 times if google server is not available
+            var response = await Policy
+                                    .HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
+                                    .RetryAsync(3)
+                                    .ExecuteAsync(() => this.httpClient.PostAsync(this.url, new FormUrlEncodedContent(keys)));
 
-                var content = await response.Content.ReadAsStringAsync();
-                var reCaptchaResult = JsonConvert.DeserializeObject<ReCaptchaResult>(content);
-                if (!reCaptchaResult.Success)
-                {
-                    throw new NotVerifiedException();
-                }
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new GoogleServerNotAvailableException(this.url, response.StatusCode);
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            var reCaptchaResult = JsonConvert.DeserializeObject<ReCaptchaResult>(content);
+            if (!reCaptchaResult.Success)
+            {
+                throw new NotVerifiedException();
             }
         }
     }

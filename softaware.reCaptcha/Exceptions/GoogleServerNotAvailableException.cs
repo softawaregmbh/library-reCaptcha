@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
 
-namespace softaware.reCaptcha
+namespace softaware.reCaptcha.Exceptions
 {
     [Serializable]
-    internal class GoogleServerNotAvailableException : Exception
+    public class GoogleServerNotAvailableException : Exception
     {
         public string UsedUrl { get; private set; }
         public HttpStatusCode StatusCode { get; private set; }
