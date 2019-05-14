@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>softaware gmbh</Authors>
     <Company>softaware gmbh</Company>
-    <Description>A library for using Google reCaptcha on der server side.</Description>
+    <Description>A library for using Google reCaptcha on server side.</Description>
     <Version>1.1.0</Version>
     <RepositoryUrl>https://github.com/softawaregmbh/library-reCaptcha</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
