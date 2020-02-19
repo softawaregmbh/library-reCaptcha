@@ -13,6 +13,8 @@ namespace softaware.reCaptcha.AspNetCore
 
         public string HeaderKey { get; set; } = DefaultHeaderKey;
 
+        public bool IsEnabled { get; set; } = true;
+
         public bool UseRemoteIpVerification { get; set; } = false;
 
         public ReCaptchaVerificationActionFilter(IVerifyCaptcha verifyCaptcha)
@@ -22,30 +24,33 @@ namespace softaware.reCaptcha.AspNetCore
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (context.HttpContext.Request.Headers.TryGetValue(this.HeaderKey, out var token))
+            if (this.IsEnabled)
             {
-                string ipAddress = null;
-                if (context.HttpContext?.Connection?.RemoteIpAddress != null && this.UseRemoteIpVerification)
+                if (context.HttpContext.Request.Headers.TryGetValue(this.HeaderKey, out var token))
                 {
-                    ipAddress = context.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                    string ipAddress = null;
+                    if (context.HttpContext?.Connection?.RemoteIpAddress != null && this.UseRemoteIpVerification)
+                    {
+                        ipAddress = context.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                    }
+
+                    try
+                    {
+                        await this.verifyCaptcha.VerifyAsync(token, ipAddress);
+                        await next();
+                    }
+                    catch (GoogleServerNotAvailableException)
+                    {
+                        // do nothing - set status code result to 419
+                    }
+                    catch (NotVerifiedException)
+                    {
+                        // do nothing - set status code result to 419
+                    }
                 }
 
-                try
-                {
-                    await this.verifyCaptcha.VerifyAsync(token, ipAddress);
-                    await next();
-                }
-                catch (GoogleServerNotAvailableException)
-                {
-                    // do nothing - set status code result to 419
-                }
-                catch (NotVerifiedException)
-                {
-                    // do nothing - set status code result to 419
-                }
+                context.Result = new StatusCodeResult(419);
             }
-
-            context.Result = new StatusCodeResult(419);
         }
     }
 }

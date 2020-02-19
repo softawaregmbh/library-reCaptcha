@@ -7,6 +7,8 @@ namespace softaware.reCaptcha.AspNetCore
     {
         public string HeaderKey { get; set; }
 
+        public bool IsEnabled { get; set; } = true;
+
         public bool IsReusable => false;
 
         public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
@@ -18,6 +20,8 @@ namespace softaware.reCaptcha.AspNetCore
             {
                 filter.HeaderKey = this.HeaderKey;
             }
+
+            filter.IsEnabled = this.IsEnabled;
 
             return filter;
         }
