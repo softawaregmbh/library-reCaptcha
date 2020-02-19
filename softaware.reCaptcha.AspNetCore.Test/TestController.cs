@@ -7,30 +7,16 @@ namespace softaware.reCaptcha.AspNetCore.Test
     {
         public const string ReCaptchaHeaderKey = "g-recaptcha-token";
 
-        [Route("HeaderKeyAndEnabled")]
-        [ReCaptchaVerificationFilterFactory(HeaderKey = ReCaptchaHeaderKey, IsEnabled = true)]
-        public ActionResult HeaderKeyAndEnabled()
+        [Route("HeaderKey")]
+        [ReCaptchaVerificationFilterFactory(HeaderKey = ReCaptchaHeaderKey)]
+        public ActionResult HeaderKey()
         {
             return this.Ok();
         }
 
-        [Route("HeaderKeyAndDisabled")]
-        [ReCaptchaVerificationFilterFactory(HeaderKey = ReCaptchaHeaderKey, IsEnabled = false)]
-        public ActionResult HeaderKeyAndDisabled()
-        {
-            return this.Ok();
-        }
-
-        [Route("NoHeaderKeyAndEnabled")]
-        [ReCaptchaVerificationFilterFactory(IsEnabled = true)]
-        public ActionResult NoHeaderKeyAndEnabled()
-        {
-            return this.Ok();
-        }
-
-        [Route("NoHeaderKeyAndDisabled")]
-        [ReCaptchaVerificationFilterFactory(IsEnabled = false)]
-        public ActionResult NoHeaderKeyAndDisabled()
+        [Route("NoHeaderKey")]
+        [ReCaptchaVerificationFilterFactory()]
+        public ActionResult NoHeaderKey()
         {
             return this.Ok();
         }

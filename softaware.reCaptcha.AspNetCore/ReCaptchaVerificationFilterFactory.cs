@@ -7,21 +7,24 @@ namespace softaware.reCaptcha.AspNetCore
     {
         public string HeaderKey { get; set; }
 
-        public bool IsEnabled { get; set; } = true;
-
         public bool IsReusable => false;
 
         public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
-            var verifyCaptcha = serviceProvider.GetService(typeof(IVerifyCaptcha)) as IVerifyCaptcha;
-            var filter = new ReCaptchaVerificationActionFilter(verifyCaptcha);
+            if (!(serviceProvider.GetService(typeof(ReCaptchaVerificationActionFilter)) is ReCaptchaVerificationActionFilter filter))
+            {
+                if (!(serviceProvider.GetService(typeof(IVerifyCaptcha)) is IVerifyCaptcha verifyCaptcha))
+                {
+                    throw new ArgumentNullException($"Missing services - register either {nameof(IVerifyCaptcha)} or {nameof(ReCaptchaVerificationActionFilter)}");
+                }
+
+                filter = new ReCaptchaVerificationActionFilter(verifyCaptcha);
+            }
 
             if (!string.IsNullOrWhiteSpace(this.HeaderKey))
             {
                 filter.HeaderKey = this.HeaderKey;
             }
-
-            filter.IsEnabled = this.IsEnabled;
 
             return filter;
         }

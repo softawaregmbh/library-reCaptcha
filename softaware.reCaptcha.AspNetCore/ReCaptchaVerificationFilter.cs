@@ -13,18 +13,23 @@ namespace softaware.reCaptcha.AspNetCore
 
         public string HeaderKey { get; set; } = DefaultHeaderKey;
 
-        public bool IsEnabled { get; set; } = true;
+        public bool IsEnabled { get; set; }
 
         public bool UseRemoteIpVerification { get; set; } = false;
 
-        public ReCaptchaVerificationActionFilter(IVerifyCaptcha verifyCaptcha)
+        public ReCaptchaVerificationActionFilter(IVerifyCaptcha verifyCaptcha, bool isEnabled = true)
         {
-            this.verifyCaptcha = verifyCaptcha ?? throw new System.ArgumentNullException(nameof(verifyCaptcha));
+            this.verifyCaptcha = verifyCaptcha;
+            this.IsEnabled = isEnabled;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (this.IsEnabled)
+            if (!this.IsEnabled)
+            {
+                await next();
+            }
+            else
             {
                 if (context.HttpContext.Request.Headers.TryGetValue(this.HeaderKey, out var token))
                 {

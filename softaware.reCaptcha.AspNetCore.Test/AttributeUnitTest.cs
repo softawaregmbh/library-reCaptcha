@@ -10,61 +10,61 @@ namespace softaware.reCaptcha.AspNetCore.Test
         public async Task Request_WithHeaderKey_Enabled_Success()
         {
             await this.TestRequestAsync(
-                new SuccessVerifyCaptcha(), TestController.ReCaptchaHeaderKey, "api/test/HeaderKeyAndEnabled", 200);
+                new SuccessVerifyCaptcha(), TestController.ReCaptchaHeaderKey, "api/test/HeaderKey", 200);
         }
 
         [Fact]
         public async Task Request_WithHeaderKey_Enabled_Error()
         {
             await this.TestRequestAsync(
-                new ErrorVerifyCaptcha(), TestController.ReCaptchaHeaderKey, "api/test/HeaderKeyAndEnabled", 419);
+                new ErrorVerifyCaptcha(), TestController.ReCaptchaHeaderKey, "api/test/HeaderKey", 419);
         }
 
         [Fact]
         public async Task Request_WithHeaderKey_Disabled_Success()
         {
             await this.TestRequestAsync(
-                new SuccessVerifyCaptcha(), TestController.ReCaptchaHeaderKey, "api/test/HeaderKeyAndDisabled", 200);
+                new SuccessVerifyCaptcha(), TestController.ReCaptchaHeaderKey, "api/test/HeaderKey", 200, false);
         }
 
         [Fact]
         public async Task Request_WithHeaderKey_Disabled_Error()
         {
             await this.TestRequestAsync(
-                new ErrorVerifyCaptcha(), TestController.ReCaptchaHeaderKey, "api/test/HeaderKeyAndDisabled", 200);
+                new ErrorVerifyCaptcha(), TestController.ReCaptchaHeaderKey, "api/test/HeaderKey", 200, false);
         }
 
         [Fact]
         public async Task Request_NoHeaderKey_Enabled_Success()
         {
             await this.TestRequestAsync(
-                new SuccessVerifyCaptcha(), "re-captcha-token", "api/test/NoHeaderKeyAndEnabled", 200);
+                new SuccessVerifyCaptcha(), "re-captcha-token", "api/test/NoHeaderKey", 200);
         }
 
         [Fact]
         public async Task Request_NoHeaderKey_Enabled_Error()
         {
             await this.TestRequestAsync(
-                new ErrorVerifyCaptcha(), "re-captcha-token", "api/test/NoHeaderKeyAndEnabled", 419);
+                new ErrorVerifyCaptcha(), "re-captcha-token", "api/test/NoHeaderKey", 419);
         }
 
         [Fact]
         public async Task Request_NoHeaderKey_Disabled_Success()
         {
             await this.TestRequestAsync(
-                new SuccessVerifyCaptcha(), "re-captcha-token", "api/test/NoHeaderKeyAndDisabled", 200);
+                new SuccessVerifyCaptcha(), "re-captcha-token", "api/test/NoHeaderKey", 200, false);
         }
 
         [Fact]
         public async Task Request_NoHeaderKey_Disabled_Error()
         {
             await this.TestRequestAsync(
-                new ErrorVerifyCaptcha(), "re-captcha-token", "api/test/NoHeaderKeyAndDisabled", 200);
+                new ErrorVerifyCaptcha(), "re-captcha-token", "api/test/NoHeaderKey", 200, false);
         }
 
-        private async Task<HttpResponseMessage> TestRequestAsync(IVerifyCaptcha verifyCaptcha, string header, string endpoint, int expectedStatusCode)
+        private async Task<HttpResponseMessage> TestRequestAsync(IVerifyCaptcha verifyCaptcha, string header, string endpoint, int expectedStatusCode, bool isReCaptchaEnabled = true)
         {
-            using var client = this.GetHttpClient(verifyCaptcha);
+            using var client = this.GetHttpClient(verifyCaptcha, isReCaptchaEnabled);
             if (header != null)
             {
                 client.DefaultRequestHeaders.Add(header, "test");
@@ -75,9 +75,9 @@ namespace softaware.reCaptcha.AspNetCore.Test
             return response;
         }
 
-        private HttpClient GetHttpClient(IVerifyCaptcha verifyCaptcha)
+        private HttpClient GetHttpClient(IVerifyCaptcha verifyCaptcha, bool isReCaptchaEnabled)
         {
-            var factory = new TestWebApplicationFactory(verifyCaptcha);
+            var factory = new TestWebApplicationFactory(verifyCaptcha, isReCaptchaEnabled);
             return factory.CreateDefaultClient();
         }
     }

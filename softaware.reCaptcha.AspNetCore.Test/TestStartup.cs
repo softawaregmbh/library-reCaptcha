@@ -25,13 +25,9 @@ namespace softaware.reCaptcha.AspNetCore.Test
         {
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
-
             app.UseEndpoints(options =>
             {
-                options
-                    .MapControllers();
+                options.MapControllers();
             });
         }
     }
