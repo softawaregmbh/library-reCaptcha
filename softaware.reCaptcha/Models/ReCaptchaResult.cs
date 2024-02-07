@@ -1,20 +1,20 @@
 ﻿using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace softaware.reCaptcha.Models
 {
     internal class ReCaptchaResult
     {
-        [JsonProperty("success")]
+        [JsonPropertyName("success")]
         public bool Success { get; set; }
 
-        [JsonProperty("challenge_ts")]
+        [JsonPropertyName("challenge_ts")]
         public DateTime ChallengeDate { get; set; }
 
-        [JsonProperty("hostname")]
+        [JsonPropertyName("hostname")]
         public string Hostname { get; set; }
 
-        [JsonProperty("error-codes")]
+        [JsonPropertyName("error-codes")]
         public string[] ErrorCodes { get; set; }
     }
 }

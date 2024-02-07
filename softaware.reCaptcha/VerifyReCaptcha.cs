@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Polly;
 using softaware.reCaptcha.Exceptions;
 using softaware.reCaptcha.Models;
@@ -46,9 +46,8 @@ namespace softaware.reCaptcha
                 throw new GoogleServerNotAvailableException(this.url, response.StatusCode);
             }
 
-            var content = await response.Content.ReadAsStringAsync();
-            var reCaptchaResult = JsonConvert.DeserializeObject<ReCaptchaResult>(content);
-            if (!reCaptchaResult.Success)
+            var result = await response.Content.ReadFromJsonAsync<ReCaptchaResult>();
+            if (result == null || !result.Success)
             {
                 throw new NotVerifiedException();
             }
